@@ -1,80 +1,129 @@
 ***ANSWER ALL QUESTIONS BELOW***
 
 Why do we need data structure?
-Answer:
+Answer:To organize data, by defining how it will be stored, organized and accessed.
 
 What are the various operations that can be performed on different data structures?
-Answer:
+Answer: we can add elements, remove elements, sort elements, fetch elements, compare elements, etc.
 
 When would we use data structures in the real world?
-Answer:
+Answer: To organize objects.
 
 What is an Array?
-Answer:
+Answer: It is a data structure that stores similar data types.
 
 What is the difference between Array and ArrayList?
-Answer:
+Answer: An array is a basic data structured provided by java. ArrayList is part of the collection framework and it implements the List interface.
+you can access elements of an array with the square brackets []. To access elements of an array, you will have to call some methods.
+The size of an array is fixed after initialization, whereas the ArrayList is not (we can add more elements to the ArrayList after creating its object).
+Arrays can have primitive and non-primitive data types. ArrayList only contains object entries (the add() method converts the elements to Objects).
 
 What is a LinkedList?
-Answer:
+Answer: It is a data structure that implements the List interface. The elements are stored in nodes and nodes will be pointing to the next node. When adding a new element to a
+particular index, the previous index will point to the added element and the added element will point to the next index. It is efficient to organize structures of huge size.
 
 How is an Array different from LinkedList?
-Answer:
+Answer: An Array is a basic data structure built into java, LinkedList is a part of the collection framework. In the case of an array, elements are stored in a particular index, whereas
+linkedlist implements the use of nodes to store element. These nodes then point to each other (to the next element). Hence, Array's size is fixed after initialization, and Linkedlist supports the add of more elements.
 
 What is a Queue?
-Answer:
+Answer: Collection. It is an ordered list of objects that supports the principle of manipulating elements starting from the start of the list (First In, First Out - FIFO)
 
 What is a Stack (not Java memory - refers to data structure)?
-Answer:
+Answer: Collection. It is an ordered list of objects that supports the principle of manipulating elements starting from the end of the list (Last In, First Out - LIFO)
 
 What is FIFO and LIFO?
-Answer:
+Answer: First In, First Out - Last, In, First Out (see above).
 
 Explain Big O Notation?
-Answer:
+Answer: It is a theory that explains how long an algorithm takes to execute or how much memory it uses to execute (time complexity). It tries to achieve efficiency of program algorithms.
 
 What is the best case to search an element from an array?
-Answer:
+Answer: If the array is sorted.
 
 What is the worst case to search an element from an array?
-Answer:
+Answer: If the array is unsorted.
 
 Describe what a tree data structure is?
-Answer:
+Answer: A Tree is a non-linear data structure that can store hierarchical data (e.g. a family tree).
 
 Describe what a graph data structure is?
-Answer:
+Answer: A graph is a non-linear data structure that consists of nodes and edges. The edges connect several nodes to create a graph-like structure.
 
 What is the difference between the HashTable and HashMap?
-Answer:
+Answer: HashTable is synchronized, HashMap is non-synchronized, hence the latter is thread-safe.
+HashTable does not allow any null value or key. HashMap allows up to 1 null key and several null values.
 
 What are the major data structures used in the following areas : RDBMS, Network data model and Hierarchical data model
-Answer:
+Answer: for RDMSS, Arrays. For Network data models, Graph, for Hierarchical, Trees.
 
 How do HashMaps work in Java? How do they store values, and when are they useful?
-Answer:
+Answer: HashMaps store values in keys. So a key refers to a specific value. They are useful when handling a single-thread applications as it performs better,
+because it is non-synchronized.
 
 What is ArrayIndexOutOfBoundsException in java? When does it occur?
-Answer:
+Answer: It is an exception. It occurs when, at run-time, the program tries to access an element of a data structure in an index that does not exist (out of bound).
 
 What are the different ways of copying an array into another array?
-Answer:
+Answer: -Assign the elements as values to variables and then copying them to the other array.
+- Copy each element to the other array (must be of same length).
+-Use copy or clone methods.
 
 What is DFS and BFS?
-Answer:
+Answer: Depth First Search and Breadth First Search are techniques used to find the shortest path in a graph. DFS implements a Stack data structure whereas
+BFS implements a Queue.
 
 What is Recursion?
-Answer:
+Answer: Is the process in which a method calls itself continuously. It calls itself with a recursive call and will stop when a stop condition is satisfied.
 
 What are linear and non-linear data Structures?
-Answer:
-
+Answer: Linear means an element is preceded by one element and followed by another element (e.g. ArrayList). Non-linear are hierarchical structures such as a Tree or a graph.
 
 Outline different sorting algorithms and their time complexities:
-
+Algorithm	        Time Complexity
+ 	                Best	        Average	        Worst
+Selection Sort	    Ω(n^2)	        θ(n^2)	        O(n^2)
+Bubble Sort	        Ω(n)	        θ(n^2)	        O(n^2)
+Insertion Sort	    Ω(n)	        θ(n^2)	        O(n^2)
+Heap Sort	        Ω(n log(n))	    θ(n log(n))	    O(n log(n))
+Quick Sort	        Ω(n log(n))	    θ(n log(n))	    O(n^2)
+Merge Sort	        Ω(n log(n))	    θ(n log(n))	    O(n log(n))
+Bucket Sort	        Ω(n+k)	        θ(n+k)	    O(n^2)
+Radix Sort	        Ω(nk)	        θ(nk)	    O(nk)
 
 Draw a table with time complexity in which it will summarize all the data structure feature's advantages and disadvantages.
-  a) In terms of Accessing elements:
-  b) In terms of Inserting elements:
-  c) In terms of Searching elements:
-  d) In terms of Removing elements:
+  Stack
+  a) In terms of Accessing elements: - low time complexity
+  b) In terms of Inserting elements: - high time complexity because of LIFO.
+  c) In terms of Searching elements: - low time complexity
+  d) In terms of Removing elements:- high time complexity because of LIFO.
+
+  Array
+    a) In terms of Accessing elements: - high time complexity
+    b) In terms of Inserting elements: - low time complexity
+    c) In terms of Searching elements: - low time complexity
+    d) In terms of Removing elements:- low time complexity
+
+    Queue
+      a) In terms of Accessing elements: - low time complexity
+      b) In terms of Inserting elements: - high time complexity because of FIFO.
+      c) In terms of Searching elements: - low time complexity
+      d) In terms of Removing elements:- high time complexity because of FIFO.
+
+      LinkedList
+            a) In terms of Accessing elements: - low time complexity
+            b) In terms of Inserting elements: - high time complexity
+            c) In terms of Searching elements: - low time complexity
+            d) In terms of Removing elements:- high time complexity
+
+            ArrayList
+                a) In terms of Accessing elements: - high time complexity
+                b) In terms of Inserting elements: - low time complexity
+                c) In terms of Searching elements: - low time complexity
+                d) In terms of Removing elements:- low time complexity
+
+                HashMap and HashTables
+                    a) In terms of Accessing elements: - high time complexity because of keys
+                    b) In terms of Inserting elements: - high time complexity because of keys
+                    c) In terms of Searching elements: - high time complexity because of keys
+                    d) In terms of Removing elements:- high time complexity because of keys
