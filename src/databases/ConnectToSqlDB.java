@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
 import parser.Student;
 
 public class ConnectToSqlDB {
@@ -21,6 +22,28 @@ public class ConnectToSqlDB {
     public static Statement statement = null;
     public static PreparedStatement ps = null;
     public static ResultSet resultSet = null;
+
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
+
+        ConnectToSqlDB mySQL = new ConnectToSqlDB();
+
+        List<Student> studentList = new ArrayList<>();
+        Student student1 = new Student("Eddy", "Ramirez", "A", "1");
+        Student student2 = new Student("Maria", "DB", "A", "2");
+        Student student3 = new Student("Mongo", "DB", "A", "3");
+
+        studentList.add(student1);
+        studentList.add(student2);
+        studentList.add(student3);
+
+        mySQL.insertDataFromArrayListToSqlTable(studentList, "Students", "Student");
+
+//        connectToSqlDatabase();
+//        List<User> list = readUserProfileFromSqlTable();
+//        for (User user : list) {
+//            System.out.println(user.getStName() + " " + user.getStID() + " " + user.getStDOB());
+//        }
+    }
 
     public static Properties loadProperties() throws IOException {
         Properties prop = new Properties();
@@ -37,8 +60,16 @@ public class ConnectToSqlDB {
         String userName = prop.getProperty("MYSQLJDBC.userName");
         String password = prop.getProperty("MYSQLJDBC.password");
         Class.forName(driverClass);
-        connect = DriverManager.getConnection(url, userName, password);
-        System.out.println("Database is connected");
+
+        try {
+            connect = DriverManager.getConnection(url, userName, password);
+            System.out.println("Database is connected");
+        }
+        catch (Exception e) {
+            System.out.println("COULD NOT CONNECT TO DATABASE");
+            e.printStackTrace();
+
+        }
         return connect;
     }
 
@@ -70,13 +101,6 @@ public class ConnectToSqlDB {
         return list;
     }
 
-    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-        List<User> list = readUserProfileFromSqlTable();
-        for (User user : list) {
-            System.out.println(user.getStName() + " " + user.getStID() + " " + user.getStDOB());
-        }
-    }
-
     public List<String> readDataBase(String tableName, String columnName) throws Exception {
         List<String> data = new ArrayList<String>();
 
@@ -93,7 +117,7 @@ public class ConnectToSqlDB {
         return data;
     }
 
-    private void close() {
+    public void close() {
         try {
             if (resultSet != null) {
                 resultSet.close();
@@ -109,7 +133,7 @@ public class ConnectToSqlDB {
         }
     }
 
-    private List<String> getResultSetData(ResultSet resultSet2, String columnName) throws SQLException {
+    public List<String> getResultSetData(ResultSet resultSet2, String columnName) throws SQLException {
         List<String> dataList = new ArrayList<String>();
         while (resultSet.next()) {
             String itemName = resultSet.getString(columnName);
@@ -118,13 +142,16 @@ public class ConnectToSqlDB {
         return dataList;
     }
 
+
+            //TO INSERT DOB & IDS
     public void insertDataFromArrayToSqlTable(int[] ArrayData, String tableName, String columnName) {
         try {
             connectToSqlDatabase();
             ps = connect.prepareStatement("DROP TABLE IF EXISTS `" + tableName + "`;");
             ps.executeUpdate();
-            ps = connect.prepareStatement(
-                    "CREATE TABLE `" + tableName + "` (`ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+                 ps = connect.prepareStatement(
+//                         "CREATE TABLE `" + tableName + "` (`ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+                    "CREATE TABLE `" + tableName + "` (`" + columnName + "` varchar(40), `ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
             ps.executeUpdate();
             for (int n = 0; n < ArrayData.length; n++) {
                 ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUES(?)");
@@ -172,17 +199,19 @@ public class ConnectToSqlDB {
         return data;
     }
 
+        //TO INSERT STUDENT NAMES:
     public void insertDataFromArrayListToSqlTable(List<Student> list, String tableName, String columnName) {
         try {
             connectToSqlDatabase();
             ps = connect.prepareStatement("DROP TABLE IF EXISTS `" + tableName + "`;");
             ps.executeUpdate();
             ps = connect.prepareStatement(
-                    "CREATE TABLE `" + tableName + "` (`ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+//                    "CREATE TABLE `" + tableName + "` (`ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            "CREATE TABLE `" + tableName + "` (`" + columnName + "` varchar(40), `ID` int(11) NOT NULL AUTO_INCREMENT,`SortingNumbers` bigint(20) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
             ps.executeUpdate();
             for (Student st : list) {
-                ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUES(?)");
-                ps.setObject(1, st);
+                ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUE ( " + st + " );");
+//                ps.setObject(1, list);
                 ps.executeUpdate();
             }
 
