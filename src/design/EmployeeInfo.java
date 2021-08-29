@@ -61,18 +61,17 @@ public class EmployeeInfo implements Employee {
         this.employeeName = employeeName;
         this.employeeSalary = employeeSalary;}
 
-    public int employeeId() {
+    public int employeeId(String employeeName) {
         return 0;
     }
 
-    public String employeeName() {
+    public String employeeName(int employeeId) {
         return null;
     }
 
-    public int employeeSalary() {
+    public int employeeSalary(int employeeId) {
 
-        int actualSalaryOfEmployee = -1;
-
+        int actualSalaryOfEmployee = 0;
 
         try {
             Connection conn = ConnectToSqlDB.connectToSqlDatabase();
@@ -83,18 +82,13 @@ public class EmployeeInfo implements Employee {
             ConnectToSqlDB.resultSet = ConnectToSqlDB.statement.executeQuery(query);
 
             while (ConnectToSqlDB.resultSet.next()) {
-                String idField = ConnectToSqlDB.resultSet.getString("employee_id");
+                int idField = ConnectToSqlDB.resultSet.getInt("employee_id");
                 String nameField = ConnectToSqlDB.resultSet.getString("employee_name");
                 String salaryField = ConnectToSqlDB.resultSet.getString("employee_salary");
                 String departmentField = ConnectToSqlDB.resultSet.getString("department");
 
-
-                //DELETE THIS:
-                String employeeId = "103";
-
-                if (idField.equals(employeeId)) {
-                    String salaryOfEmployee = salaryField;
-                    actualSalaryOfEmployee = Integer.valueOf(salaryOfEmployee);
+                    if (idField == employeeId) {
+                    actualSalaryOfEmployee = Integer.valueOf(salaryField);
                 }
             }
 
@@ -110,6 +104,11 @@ public class EmployeeInfo implements Employee {
         return actualSalaryOfEmployee;
 //
     }
+
+    public Department employeeDepartment(int employeeId) {
+        return null;
+    }
+
         //TO TRANSFER AN EMPLOYEE TO ANOTHER DEPARTMENT WITH EMPLOYEE ID:
     public void assignDepartment() {
 
@@ -155,13 +154,16 @@ public class EmployeeInfo implements Employee {
             System.out.println("Please state which benefit to check (Bonus or Pension): ");
             benefitToCheck = stdin.next();
         }
-        stdin.close();
+
         if (benefitToCheck.equals("Pension")) {
-            calculateEmployeePension(employeeSalary());
+            System.out.println("Please state Employee ID: ");
+            calculateEmployeePension(employeeSalary(stdin.nextInt()));
         }
         if (benefitToCheck.equals("Bonus")) {
-            calculateEmployeeBonus(employeeSalary(), 0, null);
+            System.out.println("Please state Employee ID: ");
+            calculateEmployeeBonus(employeeSalary(stdin.nextInt()), 0, null);
         }
+        stdin.close();
     }
 
           // TO CALCULATE EMPLOYEE BONUS BASED ON PERFORMANCE:
@@ -235,12 +237,14 @@ public class EmployeeInfo implements Employee {
 
 
 
+
+        System.out.println("Total pension to receive by employee based on " + yearsEmployed + " years with the company " +
+                "(5% of yearly salary for each year, based on a monthly salary of $" + employeeSalary + "): " + total);
+
         }
         catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        System.out.println("This will be the total pension to receive by employee based on longevity " +
-                "(5% of yearly salary for every year, for a current monthly salary of $" + employeeSalary + "): " + total);
         return total;
     }
 
