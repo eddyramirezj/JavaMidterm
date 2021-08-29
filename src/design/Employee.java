@@ -20,10 +20,10 @@ public interface Employee {
     String employeeName(int employeeId);
 
     //employeeSalary() returns employee salary
-    int employeeSalary(int employeeId);
+    int employeeSalary(String employeeName);
 
     //employeeDepartment() returns employee department
-    EmployeeInfo.Department employeeDepartment(int employeeId);
+    EmployeeInfo.Department employeeDepartment(String employeeName);
 
     //assignDepartment() will assign employee to a specific department
     void assignDepartment();
