@@ -1,5 +1,15 @@
 package design;
 
+import databases.ConnectToSqlDB;
+import databases.User;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
  /*
@@ -31,10 +41,6 @@ public class EmployeeInfo implements Employee {
         as you will come up with the new ideas.
      */
 
-    /*
-     You must have/use multiple constructors
-     */
-
     public EmployeeInfo(int employeeId) {
         this.employeeId = employeeId;
     }
@@ -64,56 +70,187 @@ public class EmployeeInfo implements Employee {
     }
 
     public int employeeSalary() {
-        return 0;
-    }
 
+        int actualSalaryOfEmployee = -1;
+
+
+        try {
+            Connection conn = ConnectToSqlDB.connectToSqlDatabase();
+            String query = "SELECT * FROM employees;";
+
+            ConnectToSqlDB.statement = conn.createStatement();
+
+            ConnectToSqlDB.resultSet = ConnectToSqlDB.statement.executeQuery(query);
+
+            while (ConnectToSqlDB.resultSet.next()) {
+                String idField = ConnectToSqlDB.resultSet.getString("employee_id");
+                String nameField = ConnectToSqlDB.resultSet.getString("employee_name");
+                String salaryField = ConnectToSqlDB.resultSet.getString("employee_salary");
+                String departmentField = ConnectToSqlDB.resultSet.getString("department");
+
+
+                //DELETE THIS:
+                String employeeId = "103";
+
+                if (idField.equals(employeeId)) {
+                    String salaryOfEmployee = salaryField;
+                    actualSalaryOfEmployee = Integer.valueOf(salaryOfEmployee);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return actualSalaryOfEmployee;
+//
+    }
+        //TO TRANSFER AN EMPLOYEE TO ANOTHER DEPARTMENT WITH EMPLOYEE ID:
     public void assignDepartment() {
-        
+
+        Scanner stdin = new Scanner(System.in);
+        try {
+            ConnectToSqlDB.connectToSqlDatabase();
+            System.out.println("You're about to transfer an employee to another Department \nPlease state ID of employee: ");
+            String inputEmployeeId = stdin.next();
+            System.out.println("Please state the employee's new department: ");
+            String inputDepartment = stdin.next();
+
+            while ( (!inputDepartment.equals("Executive")) && (!inputDepartment.equals("Development")) &&
+                    (!inputDepartment.equals("Accounting")) && (!inputDepartment.equals("Human_Resources")) )
+            {
+                System.out.println("Please Enter a Valid Department");
+                inputDepartment = stdin.next();
+            }
+            stdin.close();
+
+            ConnectToSqlDB.ps = ConnectToSqlDB.connect.prepareStatement("UPDATE employees SET department = '" + inputDepartment + "' WHERE employee_id = '" +
+                    inputEmployeeId + "';");
+            ConnectToSqlDB.ps.executeUpdate();
+
+            System.out.println("Employee ID#" + inputEmployeeId + " is now a part of the " + inputDepartment + "Department.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
+        //A COLLECTION OF DIFFERENT BENEFITS TO BE CALCULATED:
     public void benefitLayout() {
+        Scanner stdin = new Scanner(System.in);
+        System.out.println("Please state which benefit to check (Bonus or Pension): ");
+        String benefitToCheck = stdin.next();
 
+        while ((!benefitToCheck.equals("Pension")) && (!benefitToCheck.equals("Bonus"))) {
+            System.out.println("Please state which benefit to check (Bonus or Pension): ");
+            benefitToCheck = stdin.next();
+        }
+        stdin.close();
+        if (benefitToCheck.equals("Pension")) {
+            calculateEmployeePension(employeeSalary());
+        }
+        if (benefitToCheck.equals("Bonus")) {
+            calculateEmployeeBonus(employeeSalary(), 0, null);
+        }
     }
 
-    /*
-                     You need to implement the logic of this method as such:
-                        It should calculate Employee bonus based on salary and performance.
-                        It should return the total yearly bonus.
-                            Example: 10% of salary for best performance, 8% of salary for average performance and so on.
-                            You can set arbitrary number for performance, so you probably need to send 2 arguments.
-                     *
-                     */
-    public static int calculateEmployeeBonus(int numberOfYearsWithCompany) {
-        int total = 0;
+          // TO CALCULATE EMPLOYEE BONUS BASED ON PERFORMANCE:
+    public static double calculateEmployeeBonus(int employeeSalary, int numberOfYearsWithCompany, String employeePerformance) {
+        double total = 0;
+
+        try {
+            Scanner stdin = new Scanner(System.in);
+            System.out.println("Please enter start date in format (example: May,2015): ");
+            String joiningDate = stdin.nextLine();
+            System.out.println("Please enter today's date in format (example: August,2017): ");
+            String todayDate = stdin.nextLine();
+            String convertedJoiningDate = DateConversion.convertDate(joiningDate);
+            String convertedTodayDate = DateConversion.convertDate(todayDate);
+
+            String[] actualDateToday = convertedTodayDate.split("/");
+            String[] actualJoiningDate = convertedJoiningDate.split("/");
+
+            numberOfYearsWithCompany = Integer.valueOf(actualDateToday[1]) - Integer.valueOf(actualJoiningDate[1]);
+
+            if (Integer.valueOf(actualJoiningDate[0]) > Integer.valueOf(actualDateToday[0])) {
+                numberOfYearsWithCompany--;
+            }
+
+            System.out.println("Please enter this year's performance, as indicated by HR: ");
+            employeePerformance = stdin.nextLine();
+            stdin.close();
+
+            if (numberOfYearsWithCompany >= 1) {
+                if (employeePerformance.equals("Excellent")) {
+                    total = (employeeSalary * 0.15);
+                } else if (employeePerformance.equals("Good")) {
+                    total = (employeeSalary * 0.10);
+                } else if (employeePerformance.equals("Average")) {
+                    total = (employeeSalary * 0.05);
+                } else if (employeePerformance.equals("Bad")) {
+                    total = 0;
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("This will be the yearly bonus for this Employee's performance: " + total);
         return total;
     }
 
-    /*
-     You need to implement the logic of this method as such:
-        It should calculate Employee pension based on salary and numbers of years with the company.
-        It should return the total pension amount.
-            Example: Employee will receive 5% of salary as pension for every year they are with the company
-     *
-     */
-    public static int calculateEmployeePension() {
-        int total = 0;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter start date in format (example: May,2015): ");
-        String joiningDate = sc.nextLine();
-        System.out.println("Please enter today's date in format (example: August,2017): ");
-        String todaysDate = sc.nextLine();
-        String convertedJoiningDate = DateConversion.convertDate(joiningDate);
-        String convertedTodaysDate = DateConversion.convertDate(todaysDate);
+        //CALCULATES THE TOTAL PENSION TO RECEIVE BY EMPLOYEE BASED ON START DATE AND SALARY:
+    public static double calculateEmployeePension(int employeeSalary) {
+        double total = 0;
+        try {
+            Scanner stdin = new Scanner(System.in);
 
-        // Figure out how to extract the number of years the employee has been with the company, using the above 2 dates
-        // Calculate pension
+            System.out.println("Please enter start date in format (example: May,2015): ");
+            String joiningDate = stdin.nextLine();
+            System.out.println("Please enter today's date in format (example: August,2017): ");
+            String todayDate = stdin.nextLine();
+            String convertedJoiningDate = DateConversion.convertDate(joiningDate);
+            String convertedTodayDate = DateConversion.convertDate(todayDate);
+            stdin.close();
+            String[] actualDateToday = convertedTodayDate.split("/");
+            String[] actualJoiningDate = convertedJoiningDate.split("/");
 
+            Integer yearsEmployed = Integer.valueOf(actualDateToday[1]) - Integer.valueOf(actualJoiningDate[1]);
+
+            if ( Integer.valueOf(actualJoiningDate[0]) > Integer.valueOf(actualDateToday[0]) ) {
+                yearsEmployed--;
+            }
+
+            total = (((employeeSalary * 12) * 0.05) * yearsEmployed);
+
+
+
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        System.out.println("This will be the total pension to receive by employee based on longevity " +
+                "(5% of yearly salary for every year, for a current monthly salary of $" + employeeSalary + "): " + total);
         return total;
     }
 
-    private static class DateConversion {
+        //CONVERTS STRING MONTHS TO INT:
+    public static class DateConversion {
+
+        Months months;
 
         public DateConversion(Months months) {
+            this.months = months;
         }
 
         public static String convertDate(String date) {
@@ -126,7 +263,7 @@ public class EmployeeInfo implements Employee {
 
         public static int whichMonth(String givenMonth) {
             Months months = Months.valueOf(givenMonth);
-            int date = 0;
+            int date;
             switch (months) {
                 case January:
                     date = 1;
@@ -147,22 +284,22 @@ public class EmployeeInfo implements Employee {
                     date = 6;
                     break;
                 case July:
-                    date = 1;
+                    date = 7;
                     break;
                 case August:
-                    date = 1;
+                    date = 8;
                     break;
                 case September:
-                    date = 1;
+                    date = 9;
                     break;
                 case October:
-                    date = 1;
+                    date = 10;
                     break;
                 case November:
-                    date = 1;
+                    date = 11;
                     break;
                 case December:
-                    date = 1;
+                    date = 12;
                     break;
                 default:
                     date = 0;

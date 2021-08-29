@@ -1,7 +1,7 @@
 package design;
 
 public interface Employee {
-	
+
 	/*
 	Employee is an Interface which contains multiple unimplemented methods.
 	A few methods have been declared below. You need to come up with more methods to meet business requirements of this
@@ -24,9 +24,6 @@ public interface Employee {
 
     //assignDepartment() will assign employee to departments
     void assignDepartment();
-
-//    //calculate employee salary
-//    int calculateSalary();
 
     //employee benefit
     void benefitLayout();

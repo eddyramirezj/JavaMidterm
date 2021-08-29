@@ -30,6 +30,8 @@ public class FortuneEmployee {
 
     }
 
+
+            //REGISTERS A NEW EMPLOYEE IN THE DATABASE:
     public static void registerNewEmployee() throws NullPointerException {
 
         Scanner stdin = new Scanner(System.in);
