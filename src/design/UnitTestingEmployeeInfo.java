@@ -11,7 +11,7 @@ public class UnitTestingEmployeeInfo{
      EmployeeInfo employee1 = new EmployeeInfo(101);
 
 
-       employee1.benefitLayout();
+        System.out.println(employee1.employeeSalary(stdin.nextInt()));
 
 
 

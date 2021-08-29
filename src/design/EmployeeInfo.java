@@ -30,7 +30,7 @@ Make sure to declare and use static, non-static & final fields
 public class EmployeeInfo implements Employee {
 
     static final String COMPANY_NAME = "EddyTech";
-    public enum Department {Executive, Development, Accounting, Human_Resources}
+    public enum Department {Executive, Development, Accounting, Human_Resources, No_Department}
     public int employeeId;
     public String employeeName;
     public int employeeSalary;
@@ -61,14 +61,81 @@ public class EmployeeInfo implements Employee {
         this.employeeName = employeeName;
         this.employeeSalary = employeeSalary;}
 
+
+
+        //METHOD TO FETCH EMPLOYEE ID FROM THE DATABASE:
     public int employeeId(String employeeName) {
-        return 0;
+
+        int idOfEmployee = 0;
+
+        try {
+            Connection conn = ConnectToSqlDB.connectToSqlDatabase();
+            String query = "SELECT * FROM employees;";
+
+            ConnectToSqlDB.statement = conn.createStatement();
+
+            ConnectToSqlDB.resultSet = ConnectToSqlDB.statement.executeQuery(query);
+
+            while (ConnectToSqlDB.resultSet.next()) {
+                int idField = ConnectToSqlDB.resultSet.getInt("employee_id");
+                String nameField = ConnectToSqlDB.resultSet.getString("employee_name");
+                String salaryField = ConnectToSqlDB.resultSet.getString("employee_salary");
+                String departmentField = ConnectToSqlDB.resultSet.getString("department");
+
+                if (nameField.equals(employeeName)) {
+                    idOfEmployee = idField;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return idOfEmployee;
     }
 
+        //METHOD TO FETCH EMPLOYEE NAME FROM THE DATABASE:
     public String employeeName(int employeeId) {
-        return null;
+
+        String nameOfEmployee = "";
+
+        try {
+            Connection conn = ConnectToSqlDB.connectToSqlDatabase();
+            String query = "SELECT * FROM employees;";
+
+            ConnectToSqlDB.statement = conn.createStatement();
+
+            ConnectToSqlDB.resultSet = ConnectToSqlDB.statement.executeQuery(query);
+
+            while (ConnectToSqlDB.resultSet.next()) {
+                int idField = ConnectToSqlDB.resultSet.getInt("employee_id");
+                String nameField = ConnectToSqlDB.resultSet.getString("employee_name");
+                String salaryField = ConnectToSqlDB.resultSet.getString("employee_salary");
+                String departmentField = ConnectToSqlDB.resultSet.getString("department");
+
+                if (idField == employeeId) {
+                    nameOfEmployee = nameField;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return nameOfEmployee;
     }
 
+        //METHOD TO FETCH EMPLOYEE SALARY FROM THE DATABASE:
     public int employeeSalary(int employeeId) {
 
         int actualSalaryOfEmployee = 0;
@@ -102,11 +169,56 @@ public class EmployeeInfo implements Employee {
             e.printStackTrace();
         }
         return actualSalaryOfEmployee;
-//
+
     }
 
+        //METHOD TO FETCH EMPLOYEE DEPARTMENT FROM THE DATABASE:
     public Department employeeDepartment(int employeeId) {
-        return null;
+
+        String departmentOfEmployee = "";
+
+        try {
+            Connection conn = ConnectToSqlDB.connectToSqlDatabase();
+            String query = "SELECT * FROM employees;";
+
+            ConnectToSqlDB.statement = conn.createStatement();
+
+            ConnectToSqlDB.resultSet = ConnectToSqlDB.statement.executeQuery(query);
+
+            while (ConnectToSqlDB.resultSet.next()) {
+                int idField = ConnectToSqlDB.resultSet.getInt("employee_id");
+                String nameField = ConnectToSqlDB.resultSet.getString("employee_name");
+                String salaryField = ConnectToSqlDB.resultSet.getString("employee_salary");
+                String departmentField = ConnectToSqlDB.resultSet.getString("department");
+
+                if (idField == employeeId) {
+                    departmentOfEmployee = departmentField;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (departmentOfEmployee.equals(Department.Executive.toString())) {
+        return Department.Executive;
+        }
+        if (departmentOfEmployee.equals(Department.Development.toString())) {
+            return Department.Development;
+        }
+        if (departmentOfEmployee.equals(Department.Accounting.toString())) {
+            return Department.Accounting;
+        }
+        if (departmentOfEmployee.equals(Department.Human_Resources.toString())) {
+            return Department.Human_Resources;
+        }
+        else return Department.No_Department;
+
     }
 
         //TO TRANSFER AN EMPLOYEE TO ANOTHER DEPARTMENT WITH EMPLOYEE ID:
@@ -166,7 +278,7 @@ public class EmployeeInfo implements Employee {
         stdin.close();
     }
 
-          // TO CALCULATE EMPLOYEE BONUS BASED ON PERFORMANCE:
+        // TO CALCULATE EMPLOYEE BONUS BASED ON PERFORMANCE:
     public static double calculateEmployeeBonus(int employeeSalary, int numberOfYearsWithCompany, String employeePerformance) {
         double total = 0;
 
