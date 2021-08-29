@@ -1,31 +1,12 @@
 package design;
 
 import databases.ConnectToSqlDB;
-import databases.User;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
- /*
-    This class should implement the Employee interface. You can do that by directly implementing it, however you must
-        also implement the Employee interface into an abstract class. So create an Abstract class then inherit that
-        abstract class into this EmployeeInfo class. Once you're done with designing EmployeeInfo class,
-        go to FortuneEmployee class to apply all the fields and attributes.
-
-    Important: YOU MUST USE:
-        - OOP (Abstraction, Encapsulation, Inheritance and Polymorphism) concepts in every level possible.
-        - Use all kind of keywords (super, this, static, final, etc)
-        - Implement nested class below (DateConversion)
-        - Use Exception Handling
-
-Make sure to declare and use static, non-static & final fields
- */
 
 public class EmployeeInfo implements Employee {
 
@@ -35,11 +16,6 @@ public class EmployeeInfo implements Employee {
     public String employeeName;
     public int employeeSalary;
 
-    /*
-     You must implement the logic for below 2 methods and
-        following 2 methods are prototype as well for other methods need to be design,
-        as you will come up with the new ideas.
-     */
 
     public EmployeeInfo(int employeeId) {
         this.employeeId = employeeId;
