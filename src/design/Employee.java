@@ -19,11 +19,14 @@ public interface Employee {
     //employeeName() will return employee name
     String employeeName();
 
+    //employee() returns employee salary
+    int employeeSalary();
+
     //assignDepartment() will assign employee to departments
     void assignDepartment();
 
-    //calculate employee salary
-    int calculateSalary();
+//    //calculate employee salary
+//    int calculateSalary();
 
     //employee benefit
     void benefitLayout();

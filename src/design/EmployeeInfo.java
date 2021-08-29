@@ -2,9 +2,7 @@ package design;
 
 import java.util.Scanner;
 
-public class EmployeeInfo {
-
-    /*
+ /*
     This class should implement the Employee interface. You can do that by directly implementing it, however you must
         also implement the Employee interface into an abstract class. So create an Abstract class then inherit that
         abstract class into this EmployeeInfo class. Once you're done with designing EmployeeInfo class,
@@ -15,12 +13,17 @@ public class EmployeeInfo {
         - Use all kind of keywords (super, this, static, final, etc)
         - Implement nested class below (DateConversion)
         - Use Exception Handling
-     */
 
-    /*
-     * Make sure to declare and use static, non-static & final fields
-     */
-    static String companyName;
+Make sure to declare and use static, non-static & final fields
+ */
+
+public class EmployeeInfo implements Employee {
+
+    static final String COMPANY_NAME = "EddyTech";
+    public enum Department {Executive, Development, Accounting, Human_Resources}
+    public int employeeId;
+    public String employeeName;
+    public int employeeSalary;
 
     /*
      You must implement the logic for below 2 methods and
@@ -31,22 +34,55 @@ public class EmployeeInfo {
     /*
      You must have/use multiple constructors
      */
-    public EmployeeInfo(int employeeId) {
 
+    public EmployeeInfo(int employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public EmployeeInfo(String name, int employeeId) {
+    public EmployeeInfo(int employeeId, String employeeName) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+    }
+
+    public EmployeeInfo(int employeeId, String employeeName, int employeeSalary) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeSalary = employeeSalary;
+    }
+
+    public EmployeeInfo(int employeeId, String employeeName, int employeeSalary, Department department) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeSalary = employeeSalary;}
+
+    public int employeeId() {
+        return 0;
+    }
+
+    public String employeeName() {
+        return null;
+    }
+
+    public int employeeSalary() {
+        return 0;
+    }
+
+    public void assignDepartment() {
+        
+    }
+
+    public void benefitLayout() {
 
     }
 
     /*
-     You need to implement the logic of this method as such:
-        It should calculate Employee bonus based on salary and performance.
-        It should return the total yearly bonus.
-            Example: 10% of salary for best performance, 8% of salary for average performance and so on.
-            You can set arbitrary number for performance, so you probably need to send 2 arguments.
-     *
-     */
+                     You need to implement the logic of this method as such:
+                        It should calculate Employee bonus based on salary and performance.
+                        It should return the total yearly bonus.
+                            Example: 10% of salary for best performance, 8% of salary for average performance and so on.
+                            You can set arbitrary number for performance, so you probably need to send 2 arguments.
+                     *
+                     */
     public static int calculateEmployeeBonus(int numberOfYearsWithCompany) {
         int total = 0;
         return total;
