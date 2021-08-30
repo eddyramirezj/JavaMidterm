@@ -8,10 +8,6 @@ import java.util.List;
 public class Sort {
 
     long executionTime = 0;
-    /*
-
-     * Store all the sorted data into one of the databases.
-     */
 
     public static void printSortedArray(int[] array) {
         System.out.print(Arrays.toString(array));
@@ -126,6 +122,7 @@ public class Sort {
         return list;
     }
 
+            //NEED TO DEBUG THIS SORTING ALGORITHM:
     public void bucketSort(int[] array, int noOfBuckets){
         final long startTime = System.currentTimeMillis();
         List<Integer>[] buckets = new List[noOfBuckets];
@@ -172,7 +169,9 @@ public class Sort {
     }
 
 
-
+/*
+        HELPER METHODS:
+ */
 
         //HELPER METHOD FOR MERGESORT:
     public static void merge(int[] array, int left, int middle, int right) {

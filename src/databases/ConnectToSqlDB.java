@@ -94,7 +94,7 @@ public class ConnectToSqlDB {
 
             // TO RUN SELECT QUERIES:
     public List<String> readDataBase(String tableName, String columnName) throws Exception {
-        List<String> data = new ArrayList<String>();
+        List<String> data = new ArrayList<>();
 
         try {
             connectToSqlDatabase();
@@ -158,13 +158,14 @@ public class ConnectToSqlDB {
         }
     }
 
-            //THIS METHOD IS EXCLUSIVELY FOR SORTING ALGORITHMS:
+            //THIS METHOD IS EXCLUSIVELY FOR THE SORTING ALGORITHMS LISTS:
     public void sortInsertDataFromArrayToSqlTable(int[] ArrayData, String tableName, String columnName) {
         try {
             connectToSqlDatabase();
             ps = connect.prepareStatement("DROP TABLE IF EXISTS `" + tableName + "`;");
             ps.executeUpdate();
-            ps = connect.prepareStatement("CREATE TABLE `" + tableName + "` (`Student` varchar(100), `ID` int(11) NOT NULL AUTO_INCREMENT,`DOB` varchar(100) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            ps = connect.prepareStatement("CREATE TABLE `" + tableName + "` (`" + columnName +"` bigint(255) NOT NULL);");
+//                    ", PRIMARY KEY (`" + columnName +"`) );");
             ps.executeUpdate();
             for (int sn : ArrayData) {
                 ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUE ( " + sn + ")");
