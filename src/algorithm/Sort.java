@@ -1,19 +1,21 @@
 package algorithm;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Sort {
 
     long executionTime = 0;
     /*
-     * Please implement all the sorting algorithm. Feel free to add helper methods.
+
      * Store all the sorted data into one of the databases.
      */
 
     public static void printSortedArray(int[] array) {
         System.out.print(Arrays.toString(array));
         }
-
 
     public int[] selectionSort(int[] array) {
         final long startTime = System.currentTimeMillis();
@@ -92,49 +94,99 @@ public class Sort {
         return list;
     }
 
-    public int[] quickSort(int[] array) {
+            //NEED TO DEBUG THIS SORTING ALGORITHM:
+    public int[] quickSort(int[] array, int low, int high) {
+        final long startTime = System.currentTimeMillis();
         int[] list = array;
-        //implement here
+        if(low >= high) return list;
+        int pivotPosition = quick(array, low, high);
+        quickSort(array,low, pivotPosition-1);
+        quickSort(array, pivotPosition+1, high);
 
+        final long endTime = System.currentTimeMillis();
+        final long executionTime = endTime - startTime;
+        this.executionTime = executionTime;
         return list;
     }
 
     public int[] heapSort(int[] array) {
+        final long startTime = System.currentTimeMillis();
         int[] list = array;
-        //implement here
+        buildHeap(array);
+        int sizeOfHeap = array.length-1;
+        for (int i = sizeOfHeap; i > 0; i--) {
+            exchange(array, 0, i);
+            sizeOfHeap = sizeOfHeap - 1;
+            heap (array, 0, sizeOfHeap);
+        }
 
+        final long endTime = System.currentTimeMillis();
+        final long executionTime = endTime - startTime;
+        this.executionTime = executionTime;
         return list;
     }
 
-    public int[] bucketSort(int[] array) {
-        int[] list = array;
-        //implement here
+    public void bucketSort(int[] array, int noOfBuckets){
+        final long startTime = System.currentTimeMillis();
+        List<Integer>[] buckets = new List[noOfBuckets];
 
-        return list;
+        for(int i = 0; i < noOfBuckets; i++){
+            buckets[i] = new LinkedList<>();
+        }
+
+        for(int num : array){
+
+            buckets[hash(num)].add(num);
+        }
+
+        for(List<Integer> bucket : buckets){
+            Collections.sort(bucket);
+        }
+        int i = 0;
+
+        for(List<Integer> bucket : buckets){
+            for(int num : bucket){
+                array[i++] = num;
+            }
+        }
+        final long endTime = System.currentTimeMillis();
+        final long executionTime = endTime - startTime;
+        this.executionTime = executionTime;
     }
 
-    public int[] shellSort(int[] array) {
-        int[] list = array;
-        //implement here
-
-        return list;
+    public void shellSort(int[] array, int length) {
+        final long startTime = System.currentTimeMillis();
+        for (int interval = length / 2; interval > 0; interval /= 2) {
+            for (int i = interval; i < length; i += 1) {
+                int temp = array[i];
+                int j;
+                for (j = i; j >= interval && array[j - interval] > temp; j -= interval) {
+                    array[j] = array[j - interval];
+                }
+                array[j] = temp;
+            }
+        }
+        final long endTime = System.currentTimeMillis();
+        final long executionTime = endTime - startTime;
+        this.executionTime = executionTime;
     }
+
 
 
 
         //HELPER METHOD FOR MERGESORT:
-    public static void merge(int[] array, int l, int m, int r) {
-        int n1 = m-l+1;
-        int n2 = r-m;
+    public static void merge(int[] array, int left, int middle, int right) {
+        int n1 = middle-left+1;
+        int n2 = right-middle;
         int[] L = new int[n1];
         int[] R = new int[n2];
         for(int i = 0;i < n1; i++) {
-            L[i] = array[l+i];
+            L[i] = array[left+i];
         }
         for(int i = 0;i < n2; i++) {
-            R[i] = array[m+1+i];
+            R[i] = array[middle+1+i];
         }
-        int i = 0, j = 0, k =l;
+        int i = 0, j = 0, k =left;
         while(i < n1 && j < n2) {
             if(L[i] <= R[j]) {
                 array[k++] = L[i++];
@@ -150,4 +202,70 @@ public class Sort {
             array[k++] = R[j++];
         }
     }
+
+        //HELPER METHOD FOR QUICKSORT:
+    public static int quick(int[] array, int low, int high) {
+        int pivot = array[high];
+        int left = low, right = high-1;
+        while(left < right) {
+            while(array[left]<pivot) {
+                left++;
+            }
+            while(array[right]>pivot) {
+                right--;
+            }
+            if(left >= right) {
+                break;
+            }
+            int temp = array[left];
+            array[left] = array[right];
+            array[right] = temp;
+        }
+        int temp = array[left];
+        array[left] = array[high];
+        array[high] = temp;
+        return left;
+    }
+
+       //HELPER METHODS FOR HEAPSORT:
+    public static void heap(int[] array, int i, int size) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int max;
+        if (left <= size && array[left] > array[i]) {
+            max = left;
+        } else {
+            max = i;
+        }
+        if (right <= size && array[right] > array[max]) {
+            max = right;
+        }
+        if (max != i) {
+            exchange(array, i, max);
+            heap(array, max, size);
+        }
+    }
+
+    public static void buildHeap(int[] array) {
+
+        for(int i = (array.length-1) / 2; i >= 0; i--){
+            heap(array, i, array.length-1);
+        }
+    }
+
+    public static void exchange(int[] array, int i, int j) {
+        int t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
+
+        //HELPER METHOD FOR BUCKETSORT:
+    public static int hash(int num){
+        return num/10;
+    }
+
 }
+
+
+
+

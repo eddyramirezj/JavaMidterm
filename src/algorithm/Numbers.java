@@ -31,8 +31,8 @@ public class Numbers {
         System.out.println("Total Execution Time of " + num.length + " numbers in Selection Sort took: "
                 + selectionSortExecutionTime + " milliseconds");
 
-        connectToSqlDB.insertDataFromArrayToSqlTable(num, "selection_sort", "SortingNumbers");
-        List<String> numbers = connectToSqlDB.readDataBase("selection_sort", "SortingNumbers");
+        connectToSqlDB.sortInsertDataFromArrayToSqlTable(num, "selection_sort", "SortedNumbers");
+        List<String> numbers = connectToSqlDB.readDataBase("selection_sort", "SortedNumbers");
         printValue(numbers);
 
         int n = num.length;
@@ -55,9 +55,6 @@ public class Numbers {
          */
 
     }
-
-
-
 
     /*
     HELPER METHODS

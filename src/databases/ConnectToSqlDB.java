@@ -158,6 +158,27 @@ public class ConnectToSqlDB {
         }
     }
 
+            //THIS METHOD IS EXCLUSIVELY FOR SORTING ALGORITHMS:
+    public void sortInsertDataFromArrayToSqlTable(int[] ArrayData, String tableName, String columnName) {
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("DROP TABLE IF EXISTS `" + tableName + "`;");
+            ps.executeUpdate();
+            ps = connect.prepareStatement("CREATE TABLE `" + tableName + "` (`Student` varchar(100), `ID` int(11) NOT NULL AUTO_INCREMENT,`DOB` varchar(100) DEFAULT NULL,  PRIMARY KEY (`ID`) );");
+            ps.executeUpdate();
+            for (int sn : ArrayData) {
+                ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUE ( " + sn + ")");
+                ps.executeUpdate();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
             //TO INSERT A RECORD INTO THE DATABASE:
     public void insertDataFromStringToSqlTable(String ArrayData, String tableName, String columnName) {
         try {
