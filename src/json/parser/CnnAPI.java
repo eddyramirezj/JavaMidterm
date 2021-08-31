@@ -13,9 +13,9 @@ public class CnnAPI {
       https://newsapi.org/s/cnn-api
 
       Fetch This following CNN API, It will return some news in Json data. Parse this data and construct
-      https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=YOUR_API_KEY
+      https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=937e8df172424b76917869b8dd4edd20
 
-      MY_API_KEY=0d9e35dfa3c140aab8bf9cdd70df957f
+      MY_API_KEY=937e8df172424b76917869b8dd4edd20
 
       After getting Json Format of the news, You can go to json validator link: https://jsonlint.com/ to see
       how it can be parsed.
@@ -46,7 +46,7 @@ public class CnnAPI {
      */
 
     public static void main(String[] args) throws IOException, JSONException {
-        String apiKey = "";
+        String apiKey = "937e8df172424b76917869b8dd4edd20";
         String URL = "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=" + apiKey;
 
         JSONObject rootObject = new JSONObject(new String(Files.readAllBytes(new File("src/json/parser/data.json").toPath())));
