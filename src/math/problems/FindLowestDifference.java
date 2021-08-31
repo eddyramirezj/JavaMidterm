@@ -19,7 +19,7 @@ public class FindLowestDifference {
         System.out.println(Arrays.toString(algo.selectionSort(array1)));
         System.out.println(Arrays.toString(algo.selectionSort(array2)));
 
-        System.out.println(lowestDifference(array1, array2));
+        System.out.println("This is the lowest difference between these two arrays: " +lowestDifference(array1, array2));
 
     }
 
