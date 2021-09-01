@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -190,6 +191,28 @@ public class ConnectToSqlDB {
 //            ps.executeUpdate();
             ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUE ('" + ArrayData + "')");
             ps.executeUpdate();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+            //THIS METHOD IS EXCLUSIVELY FOR DATASTRUCTURE.DATAREADER CLASS:
+    public void readerInsertDataFromStringToSqlTable(String[] array, String tableName, String columnName) {
+        try {
+            connectToSqlDatabase();
+            ps = connect.prepareStatement("DROP TABLE IF EXISTS `" + tableName + "`;");
+            ps.executeUpdate();
+            ps = connect.prepareStatement("CREATE TABLE `" + tableName + "` (`" + columnName + "` varchar(100));");
+            ps.executeUpdate();
+            for (String sn : array) {
+            ps = connect.prepareStatement("INSERT INTO " + tableName + " ( " + columnName + " ) VALUE ('" + sn + "')");
+            ps.executeUpdate();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
