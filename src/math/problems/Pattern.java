@@ -11,11 +11,30 @@ public class Pattern {
 
         */
 
-    }
-
-    public static void findPattern(){
-
+        findPattern(100);
 
     }
 
-}
+    public static void findPattern(int start){
+        int n = 1;
+        System.out.print(start + ",");
+        for (int i = start; start >= 0; i--) {
+            if (start < 0) {
+                break;
+            }
+            for (int j = 10; j > 0; j--) {
+                start = start -n;
+                if (start < 0) {
+                    break;
+                }
+                System.out.print((start) + ",");
+            }
+            n++;
+        }
+        }
+
+
+
+    }
+
+
