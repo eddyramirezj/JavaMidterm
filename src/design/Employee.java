@@ -4,7 +4,7 @@ public interface Employee {
 
 
 
-    // employeeId() will return employee id.
+    // employeeId() will return employee id..
     int employeeId(String employeeName);
 
     //employeeName() will return employee name

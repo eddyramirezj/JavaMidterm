@@ -35,7 +35,7 @@ public class ConnectToSqlDB {
         }
     }
 
-            //TO STREAM THE INFORMATION FROM THE SECRET.PROPERTIES:
+            //TO STREAM THE INFORMATION FROM THE SECRET.PROPERTIES::
     public static Properties loadProperties() throws IOException {
         Properties prop = new Properties();
         InputStream ism = new FileInputStream("src/secret.properties");
