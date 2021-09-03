@@ -9,7 +9,7 @@ import databases.ConnectToSqlDB;
 
 public class Numbers {
 
-    /*
+    /*.
      * Show all the different kind of sorting algorithm by applying into (num array).
      * Display the execution time for each sorting.Example in below.
 

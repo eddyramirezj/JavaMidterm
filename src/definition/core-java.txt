@@ -96,7 +96,7 @@ finally is a keyword used at the end of a try/catch block to execute another blo
 an exception, the codeblock inside finally will be executed before the program crashes.
 finalize is a method that belongs to the Object class and it is called before an object is sent to garbage collection (destroyed).
 
-What is a constructor?
+What is a constructor?.
 Answer: It is a codeblock that every non-abstract class havs and you use it to construct objects of that class.
 
 Can we have multiple constructors in a class?
