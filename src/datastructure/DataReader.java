@@ -34,10 +34,12 @@ public class DataReader {
          * Use For-Each & While-loop with Iterator to retrieve data.
          */
 
+        readFile(path);
+
         storeWords(path);
 
 
-//        readFile(path);
+
 
     }
 

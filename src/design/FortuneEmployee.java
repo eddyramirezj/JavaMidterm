@@ -4,6 +4,7 @@ import databases.ConnectToSqlDB;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
 
 public class FortuneEmployee extends EmployeeInfo {
@@ -110,7 +111,7 @@ public class FortuneEmployee extends EmployeeInfo {
                         System.exit(0);
                 }
 
-                System.out.println("Thank you for using" + COMPANY_NAME + "'s Human Resources Portal. " +
+                System.out.println("Thank you for using " + COMPANY_NAME + "'s Human Resources Portal. " +
                         "\nYou are now exiting the portal...");
             System.exit(0);
 
@@ -133,8 +134,8 @@ public class FortuneEmployee extends EmployeeInfo {
             int inputSalary = stdin.nextInt();
             System.out.println("Please provide what department this Employee belongs to: ");
             String inputDepartment = stdin.next();
-            while ( (!inputDepartment.equals("Executive")) && (!inputDepartment.equals("Development")) &&
-                    (!inputDepartment.equals("Accounting")) && (!inputDepartment.equals("Human_Resources")) )
+            while ( (!inputDepartment.equals(Department.Executive.toString())) && (!inputDepartment.equals(Department.Development.toString())) &&
+                    (!inputDepartment.equals(Department.Accounting.toString())) && (!inputDepartment.equals(Department.Human_Resources.toString())) )
             {
                 System.out.println("Please Enter a Valid Department");
                 inputDepartment = stdin.next();
@@ -150,10 +151,14 @@ public class FortuneEmployee extends EmployeeInfo {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        }
+          catch (SQLIntegrityConstraintViolationException e2) {
+            System.out.println("Error: The selected employeeID is already taken.");
+        }
+          catch (SQLException e3) {
+            e3.printStackTrace();
+        } catch (ClassNotFoundException e4) {
+            e4.printStackTrace();
         }
     }
 

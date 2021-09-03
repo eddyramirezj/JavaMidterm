@@ -39,10 +39,10 @@ Explain Big O Notation?
 Answer: It is a theory that explains how long an algorithm takes to execute or how much memory it uses to execute (time complexity). It tries to achieve efficiency of program algorithms.
 
 What is the best case to search an element from an array?
-Answer: If the array is sorted.
+Answer: O(n).
 
 What is the worst case to search an element from an array?
-Answer: If the array is unsorted.
+Answer: O(n).
 
 Describe what a tree data structure is?
 Answer: A Tree is a non-linear data structure that can store hierarchical data (e.g. a family tree).
